@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import DisplayMovie from './components/DisplayMovie';
+import DisplayActor from './components/DisplayActor';
+import { movieUrl } from "./utils/apiUrls";
+import { actorUrl } from './utils/apiUrls';
+import './style/CSS/style.css';
+
+
+import useFetch from "./hooks/useFetch";
 
 function App() {
+  //fetch movie
+  const { response: movieData, movieError, loading: movieLoading } = useFetch(movieUrl);
+  //fetch actor
+  const { response: actorData, actorError, loading: actorLoading } = useFetch(actorUrl);
+
+  
+  // Fetch 3rd api
+    
+  const isLoading = movieLoading || actorLoading;
+  const data = movieData || actorData;
+  const error = movieError || actorError;
+    
+  if (isLoading) {
+        return <p>I'm loading</p>
+    }
+    if (!data && !isLoading) {
+        return <p>No data </p>
+    }
+    if (error) {
+        return <p>Sorry, wrong request!</p>
+    }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <main>
+        <section>
+          <DisplayActor actorData={actorData}/>
+        </section>
+        <section>
+          <DisplayMovie movieData={movieData}
+            // id={data.results[0].id}
+          />
+        </section>
+      </main>
     </div>
   );
 }
 
 export default App;
+
+
+
