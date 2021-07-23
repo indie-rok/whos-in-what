@@ -3,7 +3,7 @@ import DisplayActor from './components/DisplayActor';
 import DisplayMovie from './components/DisplayMovie';
 import { actorUrl } from './utils/apiUrls';
 import { movieUrl } from "./utils/apiUrls";
-// import { isElementInArray } from "./tools/isElementInArray";
+import { isElementInArray } from "./tools/isElementInArray";
 import useFetch from "./hooks/useFetch";
 import './style/CSS/style.css';
 
@@ -21,14 +21,14 @@ function App() {
   const isLoading = movieLoading || actorLoading || apiLoading;
   const data = movieData || actorData || apiData;
   const error = movieError || actorError || apiError; 
-  // const actorId = apiData.credits.cast;
-  // const movieId = movieData.results[0].id;
-  // const isActorInMovie = isElementInArray(actorId, movieId);
+  const actorId = apiData?.credits.cast;
+  const movieId = movieData?.results[0].id;
 
   if (data) {
-    // console.log(isActorInMovie);
-    // console.log(movieData.results[0].id);
-    // console.log(apiData.credits.cast);
+    const isActorInMovie = isElementInArray(actorId, movieId);
+    console.log(isActorInMovie);
+    console.log(movieData?.results[0].id);
+    console.log(apiData?.credits.cast);
   }
   if (isLoading) {
     return <p>I'm loading</p>
