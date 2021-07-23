@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DisplayActor from './components/DisplayActor';
 import DisplayMovie from './components/DisplayMovie';
 import { actorUrl } from './utils/apiUrls';
 import { movieUrl } from "./utils/apiUrls";
-import { isElementInArray } from "./tools/isElementInArray";
+// import { isElementInArray } from "./tools/isElementInArray";
 import useFetch from "./hooks/useFetch";
 import './style/CSS/style.css';
 
@@ -15,7 +15,7 @@ function App() {
   const { response: actorData, actorError, loading: actorLoading } = useFetch(actorUrl);
   // Fetch 3rd api
   const apiUrl = `https://api.themoviedb.org/3/movie/${55}?api_key=6d297bdaca2dc66c4fe66393850480f4&append_to_response=credits,`;
-  const { response: apiData, apiError, apiLoading } = useFetch(apiUrl);
+  const { response: apiData, apiError, loading: apiLoading } = useFetch(apiUrl);
   
   
   const isLoading = movieLoading || actorLoading || apiLoading;
@@ -23,11 +23,12 @@ function App() {
   const error = movieError || actorError || apiError; 
   // const actorId = apiData.credits.cast;
   // const movieId = movieData.results[0].id;
+  // const isActorInMovie = isElementInArray(actorId, movieId);
+
   if (data) {
-    // const isActorInMovie = isElementInArray(actorId, movieId);
     // console.log(isActorInMovie);
-    console.log(movieData);
-    console.log(apiData.credits.cast);
+    // console.log(movieData.results[0].id);
+    // console.log(apiData.credits.cast);
   }
   if (isLoading) {
     return <p>I'm loading</p>
