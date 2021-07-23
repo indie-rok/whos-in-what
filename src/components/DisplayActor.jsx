@@ -1,8 +1,6 @@
 import { Fragment } from 'react';
 
 function DisplayActor({actorData}) {
-
-    console.log(actorData);
     return (
         <Fragment>
             <section>

@@ -1,46 +1,52 @@
 import React from 'react';
-import DisplayMovie from './components/DisplayMovie';
 import DisplayActor from './components/DisplayActor';
-import { movieUrl } from "./utils/apiUrls";
+import DisplayMovie from './components/DisplayMovie';
 import { actorUrl } from './utils/apiUrls';
+import { movieUrl } from "./utils/apiUrls";
+import { isElementInArray } from "./tools/isElementInArray";
+import useFetch from "./hooks/useFetch";
 import './style/CSS/style.css';
 
-
-import useFetch from "./hooks/useFetch";
 
 function App() {
   //fetch movie
   const { response: movieData, movieError, loading: movieLoading } = useFetch(movieUrl);
   //fetch actor
   const { response: actorData, actorError, loading: actorLoading } = useFetch(actorUrl);
-
-  
   // Fetch 3rd api
-    
-  const isLoading = movieLoading || actorLoading;
-  const data = movieData || actorData;
-  const error = movieError || actorError;
-    
+  const apiUrl = `https://api.themoviedb.org/3/movie/${55}?api_key=6d297bdaca2dc66c4fe66393850480f4&append_to_response=credits,`;
+  const { response: apiData, apiError, apiLoading } = useFetch(apiUrl);
+  
+  
+  const isLoading = movieLoading || actorLoading || apiLoading;
+  const data = movieData || actorData || apiData;
+  const error = movieError || actorError || apiError; 
+  // const actorId = apiData.credits.cast;
+  // const movieId = movieData.results[0].id;
+  if (data) {
+    // const isActorInMovie = isElementInArray(actorId, movieId);
+    // console.log(isActorInMovie);
+    console.log(movieData);
+    console.log(apiData.credits.cast);
+  }
   if (isLoading) {
-        return <p>I'm loading</p>
-    }
-    if (!data && !isLoading) {
-        return <p>No data </p>
-    }
-    if (error) {
-        return <p>Sorry, wrong request!</p>
-    }
+    return <p>I'm loading</p>
+  }
+  if (!data && !isLoading) {
+    return <p>No data </p>
+  }
+  if (error) {
+    return <p>Sorry, wrong request!</p>
+  }
   
   return (
     <div>
       <main>
         <section>
-          <DisplayActor actorData={actorData}/>
+          <DisplayActor actorData={actorData} />
         </section>
         <section>
-          <DisplayMovie movieData={movieData}
-            // id={data.results[0].id}
-          />
+          <DisplayMovie movieData={movieData} />
         </section>
       </main>
     </div>

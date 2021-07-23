@@ -3,8 +3,6 @@ import { Fragment } from 'react';
 
 
 function DisplayMovie({movieData}) {
-
-    console.log(movieData)
     return (
         <Fragment>
             <section>
